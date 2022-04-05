@@ -94,7 +94,7 @@ contract('Voting', accounts => {
             await VotingInstance.setVote(0, {from:owner});
             await expectRevert(VotingInstance.setVote(0, {from:owner}), 'You have already voted')
         })
-        it("...cannot vote 2 times", async () => {
+        it("...cannot vote if proposal doesn't exist", async () => {
             await VotingInstance.startVotingSession({from:owner});
             await expectRevert(VotingInstance.setVote(1, {from:owner}), 'Proposal not found')// avec require(_id <= proposalsArray.length-1, 'Proposal not found');
         })
