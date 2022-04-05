@@ -124,7 +124,7 @@ contract('Voting', accounts => {
             await expectRevert(VotingInstance.tallyVotes({from:owner}), 'Current status is not voting session ended')
         })
     })
-    describe('tests des event, du require des enum', () => {
+    describe('tests des event, du require des fonctions workflow', () => {
         beforeEach(async function () {
             VotingInstance = await Voting.new({from:owner});           
         })
