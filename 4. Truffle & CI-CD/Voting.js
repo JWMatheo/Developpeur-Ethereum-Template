@@ -51,13 +51,25 @@ contract('Voting', accounts => {
             await VotingInstance.startProposalsRegistering({from:owner});
             await VotingInstance.addProposal('Jojo est le meilleur manga', {from:owner});
         })
-        it("...should get voter", async () => {
+        it("...should get voter, check for isRegistered", async () => {
             const storedData = await VotingInstance.getVoter(owner, {from:owner});          
             expect(storedData.isRegistered).to.equal(true); 
         })
-        it("...should get proposal", async () => {
+        it("...should get voter, check for hasVoted", async () => {
+            const storedData = await VotingInstance.getVoter(owner, {from:owner});          
+            expect(storedData.hasVoted).to.equal(false); 
+        })
+        it("...should get voter, check for votedProposalId", async () => {
+            const storedData = await VotingInstance.getVoter(owner, {from:owner});          
+            expect(new BN(storedData.votedProposalId)).to.be.bignumber.equal(new BN(0)); 
+        })
+        it("...should get proposal, check description", async () => {
             const storedData = await VotingInstance.getOneProposal(0, {from:owner});           
             expect(storedData.description).to.equal('Jojo est le meilleur manga'); 
+        })
+        it("...should get proposal, check voteCount", async () => {
+            const storedData = await VotingInstance.getOneProposal(0, {from:owner});           
+            expect(new BN(storedData.voteCount)).to.be.bignumber.equal(new BN(0)); 
         })
     })
     describe('VOTE', () => {
@@ -124,7 +136,7 @@ contract('Voting', accounts => {
             await expectRevert(VotingInstance.tallyVotes({from:owner}), 'Current status is not voting session ended')
         })
     })
-    describe('tests des event, du require des fonctions workflow', () => {
+    describe('tests des event, du require des enum', () => {
         beforeEach(async function () {
             VotingInstance = await Voting.new({from:owner});           
         })
