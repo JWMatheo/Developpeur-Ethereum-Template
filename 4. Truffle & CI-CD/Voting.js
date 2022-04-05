@@ -108,7 +108,7 @@ contract('Voting', accounts => {
         })
         it("...cannot vote if proposal doesn't exist", async () => {
             await VotingInstance.startVotingSession({from:owner});
-            await expectRevert(VotingInstance.setVote(1, {from:owner}), 'Proposal not found')// avec require(_id <= proposalsArray.length-1, 'Proposal not found');
+            await expectRevert(VotingInstance.setVote(1, {from:owner}), 'Proposal not found')// avec setVote(){require(_id <= proposalsArray.length-1, 'Proposal not found');}
         })
     })
     describe('tallyVotes', () => {
